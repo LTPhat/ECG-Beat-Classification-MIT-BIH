@@ -111,7 +111,7 @@ def preprocess_ECGdata(ecgpath="data/ecg", processedecgpath="data/ecg_classifica
 
         waveform_before_filter = waveform.copy()
         # -------------------Bandpass Filter (0.5 - 50 Hz)--------
-        waveform_filtered = butter_bandpass_filter(waveform, lowcut=0.5, highcut=45, fs=SAMPLING_RATE, order=2)
+        waveform_filtered = butter_bandpass_filter(waveform, lowcut=0.5, highcut=40, fs=SAMPLING_RATE, order=2)
         waveform_filtered = denoiseECG_single(waveform_filtered, SAMPLING_RATE)
         # -------------------Normalization------------------------
         feature_means = np.mean(waveform_filtered, axis=0)
@@ -227,7 +227,6 @@ def preprocess_ECGdata_test(ecgpath="data/ecg", processedecgpath="data/ecg_class
         os.makedirs(processedecgpath, exist_ok=True)
 
     print("Processing ECG files ...")
-    # code from https://github.com/Seb-Good/deepecg and https://github.com/sanatonek/TNC_representation_learning
     record_ids = [file.split('.')[0] for file in os.listdir(os.path.join(ecgpath, "mit-bih-arrhythmia-database-1.0.0")) if '.dat' in file]
     
     all_ecgs = []
@@ -249,8 +248,8 @@ def preprocess_ECGdata_test(ecgpath="data/ecg", processedecgpath="data/ecg_class
             waveform, resampled_ann = resample_multichan(waveform, annotation, fs, SAMPLING_RATE)
             labels = resampled_ann.symbol
             sample = resampled_ann.sample
-        # -------------------Bandpass Filter (0.5 - 50 Hz)--------
-        waveform_filtered = butter_bandpass_filter(waveform, lowcut=0.5, highcut=45, fs=SAMPLING_RATE, order=2)
+        # -------------------Bandpass Filter (0.5 - 40 Hz)--------
+        waveform_filtered = butter_bandpass_filter(waveform, lowcut=0.5, highcut=40, fs=SAMPLING_RATE, order=2)
         waveform_filtered = denoiseECG_single(waveform_filtered, SAMPLING_RATE)
         # -------------------Normalization------------------------
         feature_means = np.mean(waveform_filtered, axis=0)
