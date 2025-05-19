@@ -48,7 +48,7 @@ class Pan_tompkins:
 
     def band_pass_filter(self, normalized_cut_offs=None, butter_filter_order=2, padlen=150):
         ''' Band pass filter for Pan tompkins algorithm
-            with a bandpass setting of 5 to 20 Hz
+            with a bandpass setting of 5 to 15 Hz
 
             params:
                 normalized_cut_offs (list) : bandpass setting canbe changed here
@@ -112,7 +112,7 @@ class Pan_tompkins:
         ''' Moving avergae filter 
 
         Params:
-            window_size (int) : no. of samples to average, if not provided : 0.08 * sample rate
+            window_size (int) : no. of samples to average, if not provided : 0.04 * sample rate
             sample_rate (int) : should be given if window_size is not given  
         return:
             integrated_signal (array)

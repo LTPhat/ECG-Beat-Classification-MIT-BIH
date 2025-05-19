@@ -87,7 +87,6 @@ def preprocess_ECGdata(ecgpath="data/ecg", processedecgpath="data/ecg_classifica
         os.makedirs(processedecgpath, exist_ok=True)
 
     print("Processing ECG files ...")
-    # code from https://github.com/Seb-Good/deepecg and https://github.com/sanatonek/TNC_representation_learning
     record_ids = [file.split('.')[0] for file in os.listdir(os.path.join(ecgpath, "mit-bih-arrhythmia-database-1.0.0")) if '.dat' in file]
     
     all_ecgs = []
