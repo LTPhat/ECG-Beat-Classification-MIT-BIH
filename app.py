@@ -111,34 +111,6 @@ def visualize_ecg_signal(file_name, ecg_signal, title="ECG Signal", xlabel="Samp
     st.pyplot(fig)
 
 def add_explain_data():
-#     data = {
-#     "AAMI Class": ["N", "S", "V", "F", "Q"],
-#     "Description": [
-#         "Normal beats",
-#         "Supraventricular ectopic beats",
-#         "Ventricular ectopic beats",
-#         "Fusion beats",
-#         "Unknown/unclassifiable beats"
-#     ],
-#     "MIT-BIH Beat Types": [
-#         "Normal, LBBB, RBBB, Atrial escape, Nodal escape",
-#         "Atrial premature, Aberrated atrial premature, Nodal premature",
-#         "PVC, Ventricular escape",
-#         "Fusion of ventricular and normal beat",
-#         "Paced, Fusion of paced and normal, Unclassifiable"
-#     ],
-#     "Symbols": [
-#         "N, L, R, e, j",
-#         "A, a, J",
-#         "V, E",
-#         "F",
-#         "/, f, Q"
-#     ]
-# }
-
-# # Create a DataFrame
-#     df = pd.DataFrame(data)
-#     st.dataframe(df)
 # Create the HTML table
     html_table = """
     <style>
@@ -152,7 +124,7 @@ def add_explain_data():
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #231a38;
         }
     </style>
     <table>
@@ -199,21 +171,7 @@ def add_explain_data():
     st.markdown(html_table, unsafe_allow_html=True)
 
 
-def main():
-    st.image("imgs/example_beat.png", use_container_width=True)
-    add_explain_data()
-    # st.markdown(
-    #     """
-    #     <style>
-    #     .title {
-    #         text-align: center;
-    #         font-size: 20px;
-    #     }
-    #     </style>
-    #     """,
-    #     unsafe_allow_html=True
-    # )
-     
+def main():  
     # === Streamlit UI ===
     uploaded_file = st.file_uploader("Upload your ECG CSV data file", type=["csv"])
 
@@ -276,10 +234,12 @@ def main():
             # st.write("Unknown (Q):", results.get("Q", 0))
 
             if n_count > 0 and abnormal_count / n_count > 0.1:
-                st.warning("⚠️ This ECG sample may indicate a heart-related problem due to high abnormal beat ratio (S or V).")
+                st.warning("⚠️ ECG signal in file '{}' may indicate a heart-related problem due to high abnormal beat ratio (S or V).".format(uploaded_file.name))
             else:
                 st.success("✅ Low rate of abnormal beats detected. ECG sample is likely normal.")
-
+            st.subheader("Beat Classification Explanation")
+            st.image("imgs/example_beat.png", use_container_width=600)
+            add_explain_data()
         else:
             st.error("No valid beats were detected in the ECG file.")
     else:
